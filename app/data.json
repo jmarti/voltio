@@ -1,0 +1,28 @@
+{
+	"steps": [
+		{
+			"step": 1,
+			"id": "step1",
+			"title": "Title step 1",
+			"subtitle": "Subtitle step 1",
+			"text": "Lorem ipsum dolor sit amet",
+			"image": "foto.jpg"
+		},
+		{
+			"step": 2,
+			"id": "step2",
+			"title": "Title step 2",
+			"subtitle": "Subtitle step 2",
+			"text": "Lorem ipsum dolor sit amet",
+			"image": "foto.jpg"
+		},
+		{
+			"step": 3,
+			"id": "step3",
+			"title": "Title step 3",
+			"subtitle": "Subtitle step 3",
+			"text": "Lorem ipsum dolor sit amet",
+			"image": "foto.jpg"
+		}
+	]
+}
