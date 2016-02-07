@@ -1,0 +1,25 @@
+{
+  "name": "voltio",
+  "version": "1.0.0",
+  "description": "voltio web",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jmarti/voltio.git"
+  },
+  "author": "jmarti",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jmarti/voltio/issues"
+  },
+  "homepage": "https://github.com/jmarti/voltio#readme",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-bower-concat": "^0.6.0",
+    "grunt-browser-sync": "^2.2.0",
+    "grunt-contrib-watch": "^0.6.1"
+  }
+}

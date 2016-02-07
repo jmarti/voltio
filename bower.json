@@ -1,0 +1,21 @@
+{
+  "name": "voltio",
+  "description": "voltio web",
+  "main": "index.js",
+  "authors": [
+    "jmarti"
+  ],
+  "license": "ISC",
+  "moduleType": [],
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "d3": "^3.5.14"
+  }
+}
