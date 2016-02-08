@@ -186,25 +186,62 @@ steps_pos = {
 	'currentX': function() { return positioning(.5, .75)[0] }(),
 };
 
-function log(x) {
-	return (x < 0)	? -(Math.log1p(-x)*Math.log1p(-x)*Math.log10(-x)*Math.log10(-x))
-					: Math.log1p(x)*Math.log1p(x)*Math.log10(x)*Math.log10(x);
-}
-
 var initial = true;
+	changeStep = false;
+	direction = null
 function moveSteps() {
 	if(initial) {
 		cursor_ini = cursorX;
+		initial = false;
 	}
-	var x_var = parseInt(cursorX - cursor_ini);
-	if(x_var !== 0) x_var = log(x_var);
+	var x_var = parseInt(cursorX - cursor_ini),
+		x_interaction = 0;
+	if (direction === null && x_var<0) {
+		direction = 'neg';
+	} else if (direction === null && x_var>0) {
+		direction = 'pos';
+	}
+
+	if (Math.abs(x_var)>320 || changeStep) {
+		changeStep = true;
+	}
+	if(Math.abs(x_var) < 320 && !changeStep) {
+		if (direction == 'neg') {
+			x_interaction = x_var * (1.046762 + 0.00139874 * x_var);
+		} else if (direction == 'pos') {
+			x_interaction = x_var * (1.046762 - 0.00139874 * x_var);
+		} else {
+			x_interaction = x_var;
+		}
+	} else {
+		if (direction == 'neg') {
+			x_interaction = 0.15 * x_var - 144;	
+		} else if (direction == 'pos') {
+			x_interaction = 0.15 * x_var + 144;
+		} else {
+			x_interaction = x_var;
+		}
+		
+	}	
 	
 	d3.selectAll('g#steps, g#nodes')
 	.attr('transform', function () {
-		return 'translate(' + (steps_pos.x+x_var) + ',' + steps_pos.y + ')';
+		return 'translate(' + (steps_pos.x+x_interaction) + ',' + steps_pos.y + ')';
 	});
-	steps_pos.currentX = steps_pos.x + x_var;
-	initial = false;
+	steps_pos.currentX = steps_pos.x + x_interaction
+	
+
+}
+
+
+var variation = 0,
+	init2 = true;
+function variationMove() {
+	if(init2) {
+		cursor_ini = cursorX;
+		init2 = false;
+	}
+	console.log(cursor_ini);
 
 }
 
@@ -212,15 +249,18 @@ function moveSteps() {
 document.onmousedown = function(event) {
 	if(event.target.tagName == 'circle') {
 	} else {
-		interval = setInterval("moveSteps()", 5);
+		interval = setInterval("moveSteps()", 1);
+		interval2 = setInterval("variationMove()", 150);
 	}
 }
 
 document.onmouseup = function(event) {
-	if(interval !== null) {
-		clearInterval(interval)
-	}
+	if(interval !== null) clearInterval(interval);
+	if(interval2 !== null) clearInterval(interval2);
 	steps_pos.x = steps_pos.currentX;
 	interval = null;
 	initial = true;
+	init2 = true;
+	changeStep = false;
+	direction = null;
 }
