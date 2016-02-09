@@ -153,12 +153,23 @@ function createSteps() {
 			});
 		})
 
-		// d3.selectAll('g#nodes, g#steps').attr('transform', translatePos(0, .75));	
-
-
+		// d3.selectAll('g#nodes, g#steps').attr('transform', translatePos(0, .75));
 
 		window.onload = function(event) { svg.sizing(); };
 		window.onresize = function(event) {	svg.sizing(); };
+
+
+
+		var circles = d3.selectAll('circle');
+		console.log(circles);
+		circles
+		.call(d3.behavior.drag().on('drag', function (d) {
+			console.log(d3.event);
+			d3.select(this).attr("transform", function(d,i){
+
+                return "translate(" + [ d3.event.x,d3.event.y ] + ")"
+            })
+		}));
 
 	}
 
@@ -177,13 +188,13 @@ document.onmousemove = function(e){
 
 
 
-
 var interval = null;
 var seps_pos = {}
 steps_pos = {
 	'x': function() { return positioning(.5, .75)[0] }(),
 	'y': function() { return positioning(.5, .75)[1] }(),
 	'currentX': function() { return positioning(.5, .75)[0] }(),
+	'direction': null
 };
 
 var initial = true;
@@ -196,71 +207,72 @@ function moveSteps() {
 	}
 	var x_var = parseInt(cursorX - cursor_ini),
 		x_interaction = 0;
-	if (direction === null && x_var<0) {
-		direction = 'neg';
-	} else if (direction === null && x_var>0) {
-		direction = 'pos';
+	if (steps_pos.direction === null && x_var<0) {
+		steps_pos.direction = 'neg';
+	} else if (steps_pos.direction === null && x_var>0) {
+		steps_pos.direction = 'pos';
 	}
 
 	if (Math.abs(x_var)>320 || changeStep) {
 		changeStep = true;
 	}
 	if(Math.abs(x_var) < 320 && !changeStep) {
-		if (direction == 'neg') {
+		if (steps_pos.direction == 'neg') {
 			x_interaction = x_var * (1.046762 + 0.00139874 * x_var);
-		} else if (direction == 'pos') {
+		} else if (steps_pos.direction == 'pos') {
 			x_interaction = x_var * (1.046762 - 0.00139874 * x_var);
 		} else {
 			x_interaction = x_var;
 		}
 	} else {
-		if (direction == 'neg') {
+		if (steps_pos.direction == 'neg') {
 			x_interaction = 0.15 * x_var - 144;	
-		} else if (direction == 'pos') {
+		} else if (steps_pos.direction == 'pos') {
 			x_interaction = 0.15 * x_var + 144;
 		} else {
 			x_interaction = x_var;
-		}
-		
-	}	
-	
+		}	
+	}
+
 	d3.selectAll('g#steps, g#nodes')
+	.transition()
+	.duration(500)
+	.ease('linear')
 	.attr('transform', function () {
 		return 'translate(' + (steps_pos.x+x_interaction) + ',' + steps_pos.y + ')';
 	});
-	steps_pos.currentX = steps_pos.x + x_interaction
-	
+	steps_pos.currentX = steps_pos.x + x_interaction;
+}
 
+
+function changingStep() {
+	console.log('hola');
 }
 
 
 var variation = 0,
 	init2 = true;
-function variationMove() {
-	if(init2) {
-		cursor_ini = cursorX;
-		init2 = false;
-	}
-	console.log(cursor_ini);
-
-}
-
 
 document.onmousedown = function(event) {
 	if(event.target.tagName == 'circle') {
+
 	} else {
-		interval = setInterval("moveSteps()", 1);
-		interval2 = setInterval("variationMove()", 150);
+		interval = setInterval("moveSteps()", 50);
 	}
 }
 
 document.onmouseup = function(event) {
-	if(interval !== null) clearInterval(interval);
-	if(interval2 !== null) clearInterval(interval2);
+	clearInterval(interval);
+	
+	if(changeStep) {
+		changingStep();
+	} else {
+
+	}
 	steps_pos.x = steps_pos.currentX;
-	interval = null;
+	
 	initial = true;
-	init2 = true;
+	
 	changeStep = false;
-	direction = null;
+	steps_pos.direction = null;
 }
