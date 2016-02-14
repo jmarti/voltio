@@ -15,7 +15,5 @@
     "test",
     "tests"
   ],
-  "dependencies": {
-    "d3": "^3.5.14"
-  }
+  "dependencies": {}
 }
