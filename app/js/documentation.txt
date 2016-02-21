@@ -1,0 +1,55 @@
+Funciones
+================
+================
+
+Element.prototype.getTranslation = devuelve los valores transform-translate de Element.
+	{x: valor_x, y: valor_y}
+
+
+getPosition
+	devuelve la posición de un elemento o un array de ellos.
+	@elements{selector, array}
+	@index: se puede indicar un índice para concretar un elemento en concreto dentro del array.
+	Nota: se ha obtado por separar array e índice en los parámetros, debido a que se puede llegar a hacer una selección de una selección.
+
+getRelativePosition
+	devuelve la posición relativa de un elemento o un array de ellos.
+	definimos la posición relativa como aquella que tiene el objeto en su contexto.
+	si queremos definir la posición de un objeto, tenemos que averiguar cual es su posición relativa, porque tanto como él como alguno de sus padres podría tener translaciones definidas.
+	@elements{selector, array}
+	@index: se puede indicar un índice para concretar un elemento en concreto dentro del array.
+	Nota: se ha obtado por separar array e índice en los parámetros, debido a que se puede llegar a hacer una selección de una selección.
+
+
+render
+	renderiza un objeto con un @tag, en un @container, y se le puede pasar un objeto con @attr (atributos a aplicar)
+
+
+
+Navigation Object
+
+navigation is the object that controls all properties and methods involved on the construction of steps' visualization.
+
+
+
+PROPERTIES
+==========
+
+position.initial.x = X coords indicating where navigation starts (percent of window.innerWidth)
+position.initial.y = Y coords indicating where navigation starts (percent of window.innerHeight)
+
+position.stepDistance.x = X separation between steps (percent of window.innerWidth)
+position.stepDistance.y = Y separation between steps (percent of window.innerHeight)
+
+nodes.group = nodes group selector
+nodes.group.elements = nodes array
+
+
+METHODS
+=======
+
+position.know_X(@index) = calculates the X coords of where an elemetn shall be possitioned according to its @index.
+position.know_Y(@index) = calculates the Y coords of where an elemetn shall be possitioned according to its @index.
+
+createNodes(@number) = creates as much nodes as are defined by @number of steps. Nodes quantity must be steps number - 1;
+

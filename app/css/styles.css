@@ -12,7 +12,7 @@ body {
 	overflow: hidden;
 }
 
-.step circle {
+circle {
 	fill: #999;
 	stroke: black;
 	/*stroke-dasharray: 2,2;*/
